@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 
 // Modal bileşeni
+// Modal bileşeni
 function Modal({ onClose, children }) {
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
-      <div
-        className="modal-overlay fixed top-0 left-0 w-full h-full bg-black opacity-50"
-        onClick={onClose}
-      ></div>
-      <div className="modal bg-white p-4 rounded-lg">
-        {children}
-        <button
-          className="modal-close absolute top-2 right-2"
-          onClick={onClose}
-        >
-          X
-        </button>
+    <div className="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black opacity-75"></div>
+      <div className="modal-container bg-white w-1/2 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div className="modal-content py-4 text-left px-6">
+          {children}
+          <button
+            className="modal-close absolute top-0 right-0 px-4 py-2 mt-4 mr-4"
+            onClick={onClose}
+          >
+            X
+          </button>
+        </div>
       </div>
     </div>
   );
 }
+
 
 // Ana uygulama bileşeni
 function App() {
@@ -38,6 +39,12 @@ function App() {
     setTextList([...textList, inputText]);
     setInputText("");
   };
+ // Klavyeden "Enter" tuşuna basıldığında
+ const handleKeyPress = (e) => {
+  if (e.key === "Enter") { // Eğer basılan tuş "Enter" ise
+    handleAddTextToList(); // Metni listeye ekle
+  }
+};
 
   // Listeye tıklanırsa, modalı açan fonksiyon
   const handleListItemClick = (text) => {
@@ -57,6 +64,7 @@ function App() {
         type="text"
         value={inputText}
         onChange={handleInputChange}
+        onKeyDown={handleKeyPress}
         placeholder="Enter text..."
         className="border border-gray-300 rounded-md px-3 py-2 mb-4"
       />
@@ -76,7 +84,7 @@ function App() {
       </ul>
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <p>{modalText}</p>
+          <p>Full Text:{modalText}</p>
         </Modal>
       )}
     </div>
