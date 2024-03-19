@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+
 // Modal bileşeni
 // Modal bileşeni
 function Modal({ onClose, children }) {
   return (
     <div className="fixed inset-0 overflow-y-auto flex items-center justify-center z-50">
-      <div className="fixed inset-0 bg-black opacity-75"></div>
+      <div
+        className="fixed inset-0 bg-black opacity-75"
+        onClick={onClose} // Add onClick to close on backdrop click
+      ></div>
       <div className="modal-container bg-white w-1/2 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
         <div className="modal-content py-4 text-left px-6">
           {children}
@@ -20,7 +24,6 @@ function Modal({ onClose, children }) {
     </div>
   );
 }
-
 
 // Ana uygulama bileşeni
 function App() {
